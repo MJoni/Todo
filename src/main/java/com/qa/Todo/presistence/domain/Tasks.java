@@ -18,6 +18,9 @@ public class Tasks {
     @ManyToOne
     private Users users;
 
+    public Tasks(String my_task, String hello_world, Date date, Date date1, Users users) {
+    }
+
     @Override
     public String toString() {
         return "Tasks{" +

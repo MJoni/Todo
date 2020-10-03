@@ -31,7 +31,7 @@ public class TaskController {
     }
     //readById
     @GetMapping("/read/{taskId}")
-    public ResponseEntity<TaskDTO> readByID(@PathVariable Long taskId){
+    public ResponseEntity<TaskDTO> readById(@PathVariable Long taskId){
         return ResponseEntity.ok(this.service.read(taskId));
     }
     //update

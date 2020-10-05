@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+
 @RequestMapping("/users")
 public class UserController {
     private UserService service;
@@ -21,6 +22,7 @@ public class UserController {
     //create
     @PostMapping("/create")
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO){
+        System.out.println(userDTO.getClass());
         UserDTO created = this.service.createUser(userDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
@@ -35,8 +37,10 @@ public class UserController {
         return ResponseEntity.ok(this.service.read(userId));
     }
     //update
-    @PutMapping("/user/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO,@PathVariable Long userId){
+        System.out.println(userId);
+        System.out.println(userDTO.getClass());
         UserDTO updated = this.service.update(userDTO,userId);
         return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
     }

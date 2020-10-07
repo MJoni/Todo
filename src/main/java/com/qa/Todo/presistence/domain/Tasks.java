@@ -1,9 +1,13 @@
 package com.qa.Todo.presistence.domain;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
 
 @Entity
+@Table(name="tasks")
 public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +22,8 @@ public class Tasks {
     private Date dueDate;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Users users;
 
     @Override

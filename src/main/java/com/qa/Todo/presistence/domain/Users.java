@@ -1,5 +1,6 @@
 package com.qa.Todo.presistence.domain;
 
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -22,8 +23,7 @@ public class Users {
     @Column
     private String password;
 
-    // select * from flower where flower.id = this.id;
-    @OneToMany(mappedBy = "users") // the name of the field in Flower
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tasks> tasks;
 
     @Override

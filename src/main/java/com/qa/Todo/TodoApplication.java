@@ -1,6 +1,5 @@
 package com.qa.Todo;
 
-import com.qa.Todo.presistence.domain.Users;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -1,4 +1,8 @@
 package com.qa.Todo.presistence.domain;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,7 +21,8 @@ public class Tasks {
     @Column
     private Date dueDate;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private Users users;
 
     public Tasks(String my_task, String hello_world, Date date, Date date1, Users users) {

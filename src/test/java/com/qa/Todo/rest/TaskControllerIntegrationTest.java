@@ -3,7 +3,7 @@ package com.qa.Todo.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.Todo.dto.TaskDTO;
 import com.qa.Todo.presistence.domain.Tasks;
-import com.qa.Todo.presistence.domain.Users;
+
 import com.qa.Todo.presistence.repo.TaskRepo;
 
 import static org.junit.Assert.assertEquals;
@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.catalina.User;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -24,15 +24,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = { "classpath:tasks-schema.sql",
-        "classpath:tasks-data.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@ActiveProfiles("test")
+//@Sql(scripts = { "classpath:tasks-schema.sql",
+//        "classpath:tasks-data.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+//@ActiveProfiles("test")
 public class TaskControllerIntegrationTest {
     // autowiring objects for mocking different aspects of the application
     // here, a mock repo (and relevant mappers) are autowired
@@ -65,6 +63,18 @@ public class TaskControllerIntegrationTest {
     private Tasks testTasksWithId;
     private TaskDTO taskDTO;
 
+    private final String TEST_TITLE = "My Task";
+
+    private final Date TEST_START_DATE = new Date(2020-10-11);
+    private final Date TEST_DUE_DATE = new Date(2022-11-11);
+    private final String TEST_BODY= "I cannot do it";
+
+    private final String UPDATE_TEST_TITLE= "Your Task";
+    private final String UPDATE_TEST_BODY= "You can do it";
+    private final Date UPDATE_TEST_START_DATE = new Date(2030-10-11);
+    private final Date UPDATE_TEST_DUE_DATE = new Date(2032-11-11);
+
+
     private Long id;
 
     private TaskDTO mapToDTO(Tasks task) {
@@ -75,19 +85,17 @@ public class TaskControllerIntegrationTest {
     void init() {
         this.repo.deleteAll();
 
-        this.testTasks = new Tasks("My Task","Hello World",
-                new Date(), new Date(), new Users(
-                1L,"Joni","Baki","mjoni",
-                "mjoni@qa.com","123456"));
+        this.testTasks = new Tasks(TEST_TITLE, TEST_START_DATE, TEST_DUE_DATE, TEST_BODY);
         this.testTasksWithId = this.repo.save(this.testTasks);
         this.taskDTO = this.mapToDTO(this.testTasksWithId);
-        this.id = this.testTasksWithId.getTaskId();
+        this.id = this.testTasksWithId.getTask_id();
     }
 
     @Test
     void testCreate() throws Exception {
         this.mock
-                .perform(request(HttpMethod.POST, "/task/create").contentType(MediaType.APPLICATION_JSON)
+                .perform(request(HttpMethod.POST, "/tasks/create")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(this.objectMapper.writeValueAsString(this.testTasks))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -96,7 +104,7 @@ public class TaskControllerIntegrationTest {
 
     @Test
     void testRead() throws Exception {
-        this.mock.perform(request(HttpMethod.GET, "/task/read/" + this.id).accept(MediaType.APPLICATION_JSON))
+        this.mock.perform(request(HttpMethod.GET, "/tasks/read/" + this.id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(this.objectMapper.writeValueAsString(this.taskDTO)));
     }
@@ -106,32 +114,30 @@ public class TaskControllerIntegrationTest {
         List<TaskDTO> taskList = new ArrayList<>();
         taskList.add(this.taskDTO);
         String expected = this.objectMapper.writeValueAsString(taskList);
-        // expected = { { "name": "Nick", ... } , { "name": "Cris", ... } }
-
-        String actual = this.mock.perform(request(HttpMethod.GET, "/task/read").accept(MediaType.APPLICATION_JSON))
+        String actual = this.mock.perform(request(HttpMethod.GET, "/tasks/read").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         assertEquals(expected, actual);
     }
 
-//    @Test
-//    void testUpdate() throws Exception {
-//        TasksDTO newTasks = new TasksDTO(null, "Peter Peter Hughes", 4, "Fender American");
-//        Tasks updatedTasks = new Tasks(newTasks.getName(), newTasks.getStrings(),
+    @Test
+    void testUpdate() throws Exception {
+        final TaskDTO newTasks = new TaskDTO(this.id,UPDATE_TEST_TITLE, UPDATE_TEST_START_DATE, UPDATE_TEST_DUE_DATE, UPDATE_TEST_BODY);
+//        Tasks updatedTasks = new Tasks(newTasks.getTitle(), newTasks.(),
 //                newTasks.getType());
 //        updatedTasks.setId(this.id);
 //        String expected = this.objectMapper.writeValueAsString(this.mapToDTO(updatedTasks));
-//
-//        String actual = this.mock.perform(request(HttpMethod.PUT, "/task/update/" + this.id) // localhost:8901/task/update/1
-//                .contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(newTasks))
-//                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isAccepted()) // 201
-//                .andReturn().getResponse().getContentAsString();
-//
+
+        String actual = this.mock.perform(request(HttpMethod.PUT, "/tasks/update/" + this.id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(newTasks))
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isAccepted()) // 201
+                .andReturn().getResponse().getContentAsString();
 //        assertEquals(expected, actual);
-//    }
+    }
 
     @Test
     void testDelete() throws Exception {
-        this.mock.perform(request(HttpMethod.DELETE, "/task/delete/" + this.id)).andExpect(status().isNoContent());
+        this.mock.perform(request(HttpMethod.DELETE, "/tasks/delete/" + this.id)).andExpect(status().isNoContent());
     }
 }

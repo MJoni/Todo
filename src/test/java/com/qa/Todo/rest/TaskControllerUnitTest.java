@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,33 +55,25 @@ public class TaskControllerUnitTest {
     private final String title = "My Task";
     private final String body = "Hello world!";
     //TODO: fix date values properly
-    private Date startDate = new Date();
-    private Date dueDate = new Date();
+    private Date startDate = new Date(2020-10-11);
+    private Date dueDate = new Date(2020-11-11);
     private final Users users = new Users(1L,"Joni","Baki","mjoni",
             "mjoni@qa.com","123456");
 
     @BeforeEach
     void init() {
         this.taskList = new ArrayList<>();
-//        this.testTasks = new Tasks(body, strings, title);
-//        this.testTasksWithId = new Tasks(testTasks.getName(), testTasks.getStrings(),
-//                testTasks.getType());
-//        this.testTasksWithId.setId(id);
-//        this.guitaristList.add(testTasksWithId);
-//        this.guitaristDTO = this.mapToDTO(testTasksWithId);
-
-        //this.testTask = new Tasks();
         this.testTaskWithId = new Tasks(taskId,title, body, startDate, dueDate, users);
-        this.testTaskWithId.setTaskId(taskId);
+        this.testTaskWithId.setTask_id(taskId);
         this.taskList.add(testTaskWithId);
-        this.taskDTO = this.mapToDTO(testTaskWithId);
+        this.taskDTO = this.modelMapper.map(testTaskWithId, TaskDTO.class);
     }
 
     @Test
     void createTest() {
         // set up what the mock is doing
         // when running some method, return some value we've predefined up there ^
-        when(this.service.createTask(taskDTO)).thenReturn(this.taskDTO);
+        when(this.service.createTask(this.testTasks)).thenReturn(this.taskDTO);
 
         // these are the same thing:
         // JUNIT: assertEquals(expected, actual)
@@ -90,10 +82,10 @@ public class TaskControllerUnitTest {
         // assertThat(what do we want to compare the method to?)
         TaskDTO testCreated = this.taskDTO;
         assertThat(new ResponseEntity<TaskDTO>(testCreated, HttpStatus.CREATED))
-                .isEqualTo(this.controller.create(taskDTO));
+                .isEqualTo(this.controller.create(this.testTasks));
 
         // check that the mocked method we ran our assertion on ... actually ran!
-        verify(this.service, times(1)).createTask(this.taskDTO);
+        verify(this.service, times(1)).createTask(this.testTasks);
     }
 
     @Test
@@ -121,16 +113,16 @@ public class TaskControllerUnitTest {
         verify(this.service, times(1)).readAllTasks();
     }
 
-    /*
+
     // controller <- service
     @Test
     void updateTest() {
         // we need to feed the mocked service some updated data values
         // that way we can test if our 6-string guitarist changes to a 4-string
         // 'guitarist'
-        TaskDTO newTasks = new TaskDTO(null, "Peter Peter Hughes", 4, "Fender American");
-        TaskDTO newTasksWithId = new TaskDTO(this.taskId, newTasks.getName(), newTasks.getStrings(),
-                newTasks.getType());
+        TaskDTO newTasks = new TaskDTO(null, "Your Task", this.startDate, this.dueDate, "We want war");
+        TaskDTO newTasksWithId = new TaskDTO(this.taskId, newTasks.getTitle(), newTasks.getStart_date(), newTasks.getDue_date(),
+                newTasks.getBody());
 
         // feed the mock service the values we made up here ^
         when(this.service.update(newTasks, this.taskId)).thenReturn(newTasksWithId);
@@ -140,7 +132,7 @@ public class TaskControllerUnitTest {
 
         verify(this.service, times(1)).update(newTasks, this.taskId);
     }
-    */
+
     // controller -> service
     @Test
     void deleteTest() {

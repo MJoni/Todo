@@ -1,5 +1,6 @@
 package com.qa.Todo.utils;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -8,6 +9,7 @@ import java.beans.PropertyDescriptor;
 import java.util.HashSet;
 import java.util.Set;
 
+@NoArgsConstructor
 public class TodoBeanUtils {
 
     public static void mergeNotNull(Object source, Object target) {

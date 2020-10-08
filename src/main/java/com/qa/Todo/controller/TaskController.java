@@ -1,6 +1,7 @@
 package com.qa.Todo.controller;
 
 import com.qa.Todo.dto.TaskDTO;
+import com.qa.Todo.presistence.domain.Tasks;
 import com.qa.Todo.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("tasks")
+@RequestMapping("/tasks")
 public class TaskController {
     private TaskService service;
     @Autowired
@@ -20,8 +21,8 @@ public class TaskController {
     }
     //create
     @PostMapping("/create")
-    public ResponseEntity<TaskDTO> create(@RequestBody TaskDTO taskDTO){
-        TaskDTO created = this.service.createTask(taskDTO);
+    public ResponseEntity<TaskDTO> create(@RequestBody Tasks task){ //TaskDTO taskDTO
+        TaskDTO created = this.service.createTask(task);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
     //readAll
@@ -35,7 +36,7 @@ public class TaskController {
         return ResponseEntity.ok(this.service.read(taskId));
     }
     //update
-    @PutMapping("/read/{taskId}")
+    @PutMapping("/update/{taskId}")
     public ResponseEntity<TaskDTO> update(@RequestBody TaskDTO taskDTO,@PathVariable Long taskId){
         TaskDTO updated = this.service.update(taskDTO,taskId);
         return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);

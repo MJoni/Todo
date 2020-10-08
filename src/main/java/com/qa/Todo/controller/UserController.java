@@ -1,6 +1,7 @@
 package com.qa.Todo.controller;
 
 import com.qa.Todo.dto.UserDTO;
+import com.qa.Todo.presistence.domain.Users;
 import com.qa.Todo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,26 +22,24 @@ public class UserController {
     }
     //create
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO){
-        System.out.println(userDTO.getClass());
-        UserDTO created = this.service.createUser(userDTO);
+    public ResponseEntity<UserDTO> create(@RequestBody Users user){
+        System.out.println(user.getClass());
+        UserDTO created = this.service.createUser(user);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
     //readAll
-    @GetMapping("/user")
+    @GetMapping("/read")
     public ResponseEntity<List<UserDTO>> read(){
         return ResponseEntity.ok(this.service.readAllUsers());
     }
     //readById
-    @GetMapping("/user/{userId}")
+    @GetMapping("/read/{userId}")
     public ResponseEntity<UserDTO> readByID(@PathVariable Long userId){
         return ResponseEntity.ok(this.service.read(userId));
     }
     //update
-    @PutMapping("/{userId}")
+    @PutMapping("/update/{userId}")
     public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO,@PathVariable Long userId){
-        System.out.println(userId);
-        System.out.println(userDTO.getClass());
         UserDTO updated = this.service.update(userDTO,userId);
         return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
     }

@@ -29,10 +29,16 @@ public class TaskService {
         return this.mapper.map(taskDTO, Tasks.class);
     }
     //create
-    public TaskDTO createTask(TaskDTO taskDTO){
-        Tasks toSave = this.mapFromDTO(taskDTO);
-        Tasks saved = this.repo.save(toSave);
-        return this.mapToDTO(saved);
+//    public TaskDTO createTask(TaskDTO taskDTO){
+//        Tasks toSave = this.mapFromDTO(taskDTO);
+//        Tasks saved = this.repo.save(toSave);
+//        return this.mapToDTO(saved);
+//    }
+
+    public TaskDTO createTask(Tasks tasks) {
+        Tasks created = this.repo.save(tasks);
+        TaskDTO mapped = this.mapToDTO(created);
+        return mapped;
     }
     //readAll
     public List<TaskDTO> readAllTasks(){
@@ -45,6 +51,10 @@ public class TaskService {
     //update
     public TaskDTO update(TaskDTO taskDTO,Long taskId){
         Tasks toUpdate = this.repo.findById(taskId).orElseThrow(TaskNotFoundException::new);
+        toUpdate.setTitle(taskDTO.getTitle());
+        toUpdate.setStartDate(taskDTO.getStart_date());
+        toUpdate.setDueDate(taskDTO.getDue_date());
+        toUpdate.setBody(taskDTO.getBody());
         TodoBeanUtils.mergeNotNull(taskDTO, toUpdate);
         return this.mapToDTO(this.repo.save(toUpdate));
 

@@ -29,10 +29,15 @@ public class UserService {
         return this.mapper.map(userDTO, Users.class);
     }
     //create
-    public UserDTO createUser(UserDTO userDTO){
-        Users toSave = this.mapFromDTO(userDTO);
-        Users saved = this.repo.save(toSave);
-        return this.mapToDTO(saved);
+//    public UserDTO createUser(UserDTO userDTO){
+//        Users toSave = this.mapFromDTO(userDTO);
+//        Users saved = this.repo.save(toSave);
+//        return this.mapToDTO(saved);
+//    }
+    public UserDTO createUser(Users user){
+        Users created = this.repo.save(user);
+        UserDTO mapped = this.mapToDTO(created);
+        return mapped;
     }
     //readAll
     public List<UserDTO> readAllUsers(){

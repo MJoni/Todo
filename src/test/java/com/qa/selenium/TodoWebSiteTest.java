@@ -33,11 +33,20 @@ public class TodoWebSiteTest {
         assertEquals("QAC Home", driver.getTitle());
     }
     @Test
-    public void test() throws InterruptedException {
-        driver.get("https://bing.com");
-        Thread.sleep(2000);
+    public void testCreateUser(){
 
-        assertEquals("Bing", driver.getTitle());
+    }
+    @Test
+    public void testReadUser(){
+
+    }
+    @Test
+    public void testUpdateUser(){
+
+    }
+    @Test
+    public void testDeleteUser() {
+
     }
 
     @After

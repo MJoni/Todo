@@ -138,12 +138,13 @@ public class TodoWebSiteTest {
         driver.get("http://127.0.0.1:5500/todo.html");
         Thread.sleep(1000);
         WebElement inputSearch = driver.findElement(By.xpath("/html/body/ul/form/input"));
-        inputSearch.sendKeys("194");
+        inputSearch.sendKeys("198");
         driver.findElement(By.xpath("/html/body/ul/form/button")).click();
-        Thread.sleep(2000);
-        String expected = driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/span/table/tr/td/div/h4")).getText();
         Thread.sleep(1000);
-        assertEquals("194. Their task", expected);
+        WebElement data = driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/span/table/tr[1]/td/div/h4"));
+        String expected =data.getText();
+        Thread.sleep(5000);
+        assertEquals("198. okay okay", expected);
     }
     @Test
     public void testUpdateTask() throws InterruptedException {

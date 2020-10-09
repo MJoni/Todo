@@ -1,6 +1,9 @@
 body{
   background-color:#16213e;
   min-height: 100vh;
+  background-image: url('Resources/QA_Logo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 
 }
 p{
@@ -9,3 +12,7 @@ p{
 h1{
   color:#ede68a
 }
+td:hover{
+  background-color:gray;
+  cursor:pointer;
+  }

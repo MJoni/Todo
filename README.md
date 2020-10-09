@@ -1,6 +1,19 @@
 ***
 # Description
 ***
+
+## Getting Started
+Preliminaries :
+* mysql 5
+* GCP sql and key authorisation
+* Google webdriver
+* Java 9+
+
+You have to git clone this repository and update all GIT submodules.
+```
+git clone https://github.com/mjoni/todo
+
+```
 # Front End
 ***
 - [HTML](http://www.w3schools.com/html/default.asp) - A markup language for describing web documents.
@@ -38,3 +51,11 @@
 ***
 - [JetBrains webstorm](http://www.jetbrains.com/webstorm/)
 - [Microsoft Visual Studio Code](https://code.visualstudio.com/Download)
+
+
+## Contributing
+
+Contributions, questions and comments are all welcome and encouraged.
+
+## License
+[MIT License](http://opensource.org/licenses/MIT).

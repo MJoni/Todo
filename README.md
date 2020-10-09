@@ -1,11 +1,12 @@
 ***
 # Description
 ***
+This is Full stack web app that consist of a frontend and backend api. The web app allow user for an CRUD functionality of two different entities; a user and a task. These entities are linked in a GCP sql database schema which is auto generated from the backend Spring boot java API.
 
 ## Getting Started
 Preliminaries :
 * mysql 5
-* GCP sql and key authorisation
+* GCP sql and and it's key authorisation
 * Google webdriver
 * Java 9+
 

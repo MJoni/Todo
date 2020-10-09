@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+        crossorigin="anonymous">
+  <link rel="stylesheet" href="main.css">
+  <script src="Java/userAuth.js"></script>
+  <title>Todo</title>
+</head>
+<body>
+<ul class="nav nav-pills >b-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="/index.html" role="tab" aria-controls="pills-home" aria-selected="false">Home</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-home-tab" data-toggle="pill" href="/todo.html" role="tab" aria-controls="pills-home" aria-selected="true">To-do</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="/about.html" role="tab" aria-controls="pills-profile" aria-selected="false">About Us</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="/contact.html" role="tab" aria-controls="pills-contact" aria-selected="false">Contact Us</a>
+  </li>
+  <br>
+  <!-- search bar -->
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search a task by Id" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  <br>
+  <!-- user profile icon -->
+  <li class="nav-item" role="presentation">
+    <button id ="my-profile" type="button" class="btn btn-success" data-toggle="modal" data-target="#userProfileModal">
+      Guest<span class="badge badge-light"></span>
+      <!-- <span class="sr-only">unread messages</span> -->
+    </button>
+  </li>
+</ul> <!--end of nav bar -->
+<br>
+<!-- testing layout  1+9+2-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-auto">
+      <!-- goes all the new category -->
+      <div class="btn-group-vertical btn-group-lg" role="group" aria-label="Basic example">
+        <h3 class="display-4">Tasks</h3>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewModal">
+          New Task
+        </button>
+        <button id="#showTasks" type="button" class="btn btn-primary" data-toggle="modal" data-target="#tableModal">
+          Show Tasks
+        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#calenderModal">
+          Calender
+        </button>
+        <h3>Category</h3>
+        <button type="button" class="btn btn-outline-secondary">Work</button>
+        <button type="button" class="btn btn-outline-success">Shopping</button>
+        <button type="button" class="btn btn-outline-primary">Personal</button>
+        <button type="button" class="btn btn-outline-secondary">Work</button>
+        <button type="button" class="btn btn-outline-success" ></button>
+        <button type="button" class="btn btn-outline-success"></button>
+        <button type="button" class="btn btn-outline-success"></button>
+        <button type="button" class="btn btn-outline-success"></button>
+        <button type="button" class="btn btn-outline-success"></button>
+        <button type="button" class="btn btn-secondary" id="#newCatOne">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- middle section of the window -->
+    <div class="col-xl-9">
+      <div class="d-flex justify-content-start flex-xl-column bd-highlight mb-3">
+        <span class="border border-light">
+
+          <table id="display-result" class="table table-bordered table-dark">
+            <!-- will replace the table contents with following div -->
+            <!-- <tr>
+              <td>
+                <div class="card" >
+                  <h4 class="card-header">Title</h4>
+                  <div class="card-body">
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h6 id="start_date"> Start Date</h6><br><h6 id="due_date">Due Date</h6>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </td>
+            </tr> -->
+            <br> <!--end of first taks-->
+          </table>
+        </span>
+      </div>
+    </div>
+    <span class="border border-light">
+    <div class="col-sm-auto">
+      <div class="btn-group-vertical btn-group-lg" role="group" aria-label="Basic example">
+        <button disabled id="deleteAtask" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
+         Delete
+        </button>
+        <button disabled id ="updateAtask" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#updateModal">
+          Update
+         </button>
+         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteAllModal">
+          Delete All
+         </button>
+      </div>
+    </div>
+  </span>
+  </div>
+</div>
+<!-- table Modal -->
+<div class="modal fade" id="tableModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">All Tasks</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-dark" id="#showTaskTable">
+        </table>
+        <div class="modal-footer">
+          <button id="closedAndReload" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- create new task -->
+<div class="modal fade" id="createNewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="create-task" action="todo.html" method="POST" >
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Title</span></>
+          </div>
+          <input name="title" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Start Date</span></>
+      </div>
+      <input name ="startDate" type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Due Date</span></>
+    </div>
+    <input name= "dueDate" type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+  </div>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-default">Body</span></l>
+    </div>
+    <textarea name="body" class="form-control" aria-label="With textarea" required></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </div>
+
+
+  </form>
+</div>
+</div>
+</div>
+</div>
+<!-- calender modal -->
+<div class="modal fade" id="calenderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Calender</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="calendar"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning" role="alert">
+          Are you sure you want to delete the task?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button  id="delConfirmButton" type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- update model -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="update-task" action="index.html" method="POST" >
+          <!-- <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">UserID</span>
+            </div>
+            <input name="userId" disabled type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+          </div> -->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Title</span></>
+          </div>
+          <input id="title" name="title" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">StartDate</span></>
+      </div>
+      <input id ="start_date" name ="start_date" type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Due Date</span></>
+    </div>
+    <input id ="due_date" name= "due_date" type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+  </div>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-default">Body</span></l>
+    </div>
+    <textarea id ="body" name="body" class="form-control" aria-label="With textarea" required></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button id="#updateTask"type="submit" class="btn btn-primary">Update</button>
+  </div>
+
+
+  </form>
+</div>
+</div>
+</div>
+</div>
+<!-- delete all modal-->
+<div class="modal fade" id="deleteAllModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete All</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning" role="alert">
+          Are you sure you want to delete all task?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- message modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- user message go in this heading -->
+        <h5 id="show-msg"></h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- update user profile -->
+<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="user-profile" action="todo.html" method="POST" >
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">First Name</span></>
+          </div>
+          <input id="first_name"  name="first_name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Surname</span></>
+      </div>
+      <input id ="surname" name ="surname" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">User Name</span></>
+    </div>
+    <input id= "user_name" name ="user_name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-default">Email</span></l>
+    </div>
+    <input id="email"  name="email" type="text" class="form-control" aria-label="With textarea" required></input>
+  </div>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-default">Password</span></l>
+    </div>
+    <input id="password" name="password" type="text" class="form-control" aria-label="With textarea" required></input>
+  </div>
+  <div class="modal-footer">
+    <button id="update-user"type="submit" class="btn btn-primary">Update</button>
+  </div>
+  </form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button id="delete-user"type="submit" class="btn btn-primary">Delete Account</button>
+    <button id="log-out"type="submit" class="btn btn-primary">Log out</button>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<script src="Java/myJs.js"></script>
+<script src="Java/searchTask.js"></script>
+<script src="Java/createTask.js"></script>
+<script src="Java/crudUser.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>

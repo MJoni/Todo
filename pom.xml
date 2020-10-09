@@ -106,8 +106,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-test</artifactId>
 		</dependency>
-
-
 	</dependencies>
 
 	<dependencyManagement>

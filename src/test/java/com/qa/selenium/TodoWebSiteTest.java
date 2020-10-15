@@ -1,5 +1,12 @@
 package com.qa.selenium;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +16,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.*;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,7 +38,7 @@ public class TodoWebSiteTest {
     }
 
     @Test
-    public void webTitleTest(){
+    public void webTitleTest() {
         driver.get("http://127.0.0.1:5500/index.html");
         try {
             Thread.sleep(2000);
@@ -36,8 +47,9 @@ public class TodoWebSiteTest {
         }
         assertEquals("QAC Home", driver.getTitle());
     }
+
     @Test
-    public void testCreateUser(){
+    public void testCreateUser() {
         driver.get("http://127.0.0.1:5500/index.html");
         WebElement first_name = driver.findElement(By.name("first_name"));
         first_name.sendKeys("Joni");
@@ -57,6 +69,7 @@ public class TodoWebSiteTest {
         assertEquals("New user created Successfully!", expected.getText());
 
     }
+
     @Test
     public void testReadUser() throws InterruptedException {
         driver.get("http://127.0.0.1:5500/index.html");
@@ -72,6 +85,7 @@ public class TodoWebSiteTest {
         assertEquals("Login Successfully!", expected.getText());
 
     }
+
     @Test
     public void testUpdateUser() throws InterruptedException {
         driver.get("http://127.0.0.1:5500/todo.html");
@@ -96,6 +110,7 @@ public class TodoWebSiteTest {
         assertEquals("User details Updated", expected);
         driver.findElement(By.id("show-msg")).click();
     }
+
     @Test
     public void testDeleteUser() throws InterruptedException {
         driver.get("http://127.0.0.1:5500/todo.html");
@@ -108,6 +123,7 @@ public class TodoWebSiteTest {
 
 
     }
+
     @Test
     public void testCreateTask() throws InterruptedException {
         driver.get("http://127.0.0.1:5500/todo.html");
@@ -117,9 +133,9 @@ public class TodoWebSiteTest {
 
         WebElement title = driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[1]/input"));
         title.sendKeys("Our Task");
-        WebElement  start_date = driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[2]/input"));
+        WebElement start_date = driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[2]/input"));
         start_date.sendKeys("11-10-2020");
-        WebElement  due_date = driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[3]/input"));
+        WebElement due_date = driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[3]/input"));
         due_date.sendKeys("11-11-2929");
         WebElement body = driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/form/div[4]/textarea"));
         body.sendKeys("we will be done by then");
@@ -133,6 +149,7 @@ public class TodoWebSiteTest {
         driver.findElement(By.id("show-msg")).click();
 
     }
+
     @Test
     public void testReadTask() throws InterruptedException {
         driver.get("http://127.0.0.1:5500/todo.html");
@@ -142,10 +159,11 @@ public class TodoWebSiteTest {
         driver.findElement(By.xpath("/html/body/ul/form/button")).click();
         Thread.sleep(1000);
         WebElement data = driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/span/table/tr[1]/td/div/h4"));
-        String expected =data.getText();
+        String expected = data.getText();
         Thread.sleep(5000);
         assertEquals("198. okay okay", expected);
     }
+
     @Test
     public void testUpdateTask() throws InterruptedException {
         driver.get("http://127.0.0.1:5500/todo.html");
@@ -159,9 +177,9 @@ public class TodoWebSiteTest {
 
         WebElement title = driver.findElement(By.id("title"));
         title.sendKeys("Our Task");
-        WebElement  start_date = driver.findElement(By.id("start_date"));
+        WebElement start_date = driver.findElement(By.id("start_date"));
         start_date.sendKeys("11-10-2020");
-        WebElement  due_date = driver.findElement(By.id("due_date"));
+        WebElement due_date = driver.findElement(By.id("due_date"));
         due_date.sendKeys("11-11-3000");
         WebElement body = driver.findElement(By.id("body"));
         body.sendKeys("What else can be done");
@@ -172,6 +190,7 @@ public class TodoWebSiteTest {
         assertEquals("Task Updated", expected);
 
     }
+
     @Test
     public void testDeleteTask() throws InterruptedException {
         driver.get("http://127.0.0.1:5500/todo.html");
@@ -196,7 +215,6 @@ public class TodoWebSiteTest {
         assertEquals("A task has been deleted", expected);
 
     }
-
     @After
     public void tearDown() {
         driver.quit();
